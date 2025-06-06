@@ -31,8 +31,8 @@ class PostViewModel @Inject constructor(
     }
 
     fun loadPosts(refresh: Boolean = false) {
-        if(refresh){
-            currentPage  = 1
+        if (refresh) {
+            currentPage = 1
             _posts.clear()
         }
         viewModelScope.launch {
@@ -49,6 +49,21 @@ class PostViewModel @Inject constructor(
         if (index != -1) {
             val post = _posts[index]
             _posts[index] = post.copy(isLiked = !post.isLiked)
+        }
+    }
+
+    fun addComment(postId: Int, text: String) {
+        val index = _posts.indexOfFirst { it.id == postId }
+        if (index != -1) {
+            val post = _posts[index]
+            val updated = post.copy(
+                comments = post.comments + Comment(
+                    text = text,
+                    timestamp = System.currentTimeMillis(),
+                    postId = postId
+                )
+            )
+            _posts[index] = updated
         }
     }
 }

@@ -5,5 +5,6 @@ data class Post(
     val title: String,
     val body: String,
     var isLiked: Boolean = false,
-    val imageUrl: String = "https://picsum.photos/300/200?random=$id"
+    val imageUrl: String = "https://picsum.photos/300/200?random=$id",
+    val comments: List<Comment> = emptyList()
 )

@@ -16,13 +16,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    @Provides
-    fun provideBaseUrl() = "https://api.pexels.com/v1/"
 
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
         return OkHttpClient.Builder()
+            .addInterceptor(logging)
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
                     .addHeader("Authorization", "PpiFO1pYE4GOPGM8wqjJR1xHMh0MmkmrLFF8XDONlzBxDzvuxu3VmLkT")
@@ -34,9 +36,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(BASE_URL: String, client: OkHttpClient): Retrofit =
+    fun provideRetrofit( client: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl("https://api.pexels.com/v1/")
             .client(client) // Attach the client with logging
             .addConverterFactory(GsonConverterFactory.create())
             .build()

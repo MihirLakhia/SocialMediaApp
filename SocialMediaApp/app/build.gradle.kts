@@ -60,7 +60,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-
     implementation(libs.compose.ui)
     implementation(libs.compose.material)
     implementation(libs.compose.ui.tooling)
